@@ -20,11 +20,6 @@
     {
       "library": "jquery-validate@1.19.2",
       "destination": "lib/jquery-validate/"
-    },
-    {
-      "provider": "cdnjs",
-      "library": "moment.js@2.29.1",
-      "destination": "lib/moment.js/"
     }
   ]
 }
