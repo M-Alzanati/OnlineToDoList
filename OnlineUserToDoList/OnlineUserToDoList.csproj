@@ -190,12 +190,41 @@
     <Compile Include="Migrations\202011032150586_linkToDoWithUser.Designer.cs">
       <DependentUpon>202011032150586_linkToDoWithUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011041941138_add-todo-status.cs" />
+    <Compile Include="Migrations\202011041941138_add-todo-status.Designer.cs">
+      <DependentUpon>202011041941138_add-todo-status.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011041947452_fill-todo-statuses.cs" />
+    <Compile Include="Migrations\202011041947452_fill-todo-statuses.Designer.cs">
+      <DependentUpon>202011041947452_fill-todo-statuses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011041956088_link-status-with-todos.cs" />
+    <Compile Include="Migrations\202011041956088_link-status-with-todos.Designer.cs">
+      <DependentUpon>202011041956088_link-status-with-todos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011041959473_update-todos.cs" />
+    <Compile Include="Migrations\202011041959473_update-todos.Designer.cs">
+      <DependentUpon>202011041959473_update-todos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011042000538_remove-old-forigenkey.cs" />
+    <Compile Include="Migrations\202011042000538_remove-old-forigenkey.Designer.cs">
+      <DependentUpon>202011042000538_remove-old-forigenkey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011042002301_remove-status-column.cs" />
+    <Compile Include="Migrations\202011042002301_remove-status-column.Designer.cs">
+      <DependentUpon>202011042002301_remove-status-column.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011042006187_remove-status-again.cs" />
+    <Compile Include="Migrations\202011042006187_remove-status-again.Designer.cs">
+      <DependentUpon>202011042006187_remove-status-again.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ToDoBindingModel.cs" />
     <Compile Include="Models\ToDoModel.cs" />
+    <Compile Include="Models\ToDoStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -542,6 +571,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011032150586_linkToDoWithUser.resx">
       <DependentUpon>202011032150586_linkToDoWithUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011041941138_add-todo-status.resx">
+      <DependentUpon>202011041941138_add-todo-status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011041947452_fill-todo-statuses.resx">
+      <DependentUpon>202011041947452_fill-todo-statuses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011041956088_link-status-with-todos.resx">
+      <DependentUpon>202011041956088_link-status-with-todos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011041959473_update-todos.resx">
+      <DependentUpon>202011041959473_update-todos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011042000538_remove-old-forigenkey.resx">
+      <DependentUpon>202011042000538_remove-old-forigenkey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011042002301_remove-status-column.resx">
+      <DependentUpon>202011042002301_remove-status-column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011042006187_remove-status-again.resx">
+      <DependentUpon>202011042006187_remove-status-again.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

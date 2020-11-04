@@ -3,14 +3,12 @@
 }
 
 <h3>To Do List</h3>
-
+<br />
 <div class="row">
     <div>
         <section id="loginForm">
             <div class="form-group">
-                <div class="col-md-10">
-                    <input type="submit" value="+" class="btn btn-primary" style="font-size: 20px;" onclick="addToDo()" />
-                </div>
+                <input type="submit" value="+ Add ToDo" class="btn btn-primary" style="font-size: 20px; margin-bottom: 20px;" onclick="addToDo()" />
             </div>
         </section>
     </div>
@@ -41,41 +39,77 @@
     </div>
     <table id="myTable" class="display" style="width:100%">
         <thead>
-        <tr>
-            <th style="display: none;">Id</th>
-            <th>RecordNumber</th>
-            <th>Title</th>
-            <th>Due Date</th>
-            <th>Action</th>
-        </tr>
+            <tr>
+                <th>Id</th>
+                <th>RecordNumber</th>
+                <th>Title</th>
+                <th>Due Date</th>
+                <th>Action</th>
+            </tr>
         </thead>
         <tbody></tbody>
     </table>
 </div>
 
 <script type="text/javascript">
+    var myDataTable = null;
+    var url = '';
+    var toDoId = '';
+
     $(document).ready(function () {
-        bindDatatable();
+        myDataTable = bindDatatable();
     });
 
-    function addToDo() {
+    function showToDoModal() {
         $('#myModal').modal();
     }
 
-    function clearModal() {
-        $("#todo-title").val(null);
-        $("#todo-date").val(null);
-        $('#myModal').modal('hide');
+    function addToDo() {
+        url = "/ToDo/Create";
+        showToDoModal();
+    }
+
+    function editToDo(title, dueDate, id) {
+        url = "/ToDo/Edit";
+        toDoId = id;
+        showToDoModal();
+
+        $("#todo-title").val(title);
+        $("#todo-date").val(dueDate);
+    }
+
+    function deleteToDo(id) {
+        url = "/ToDo/Delete";
+        toDoId = id;
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this to do!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                saveToDo().then(() => {
+                    swal("Poof! Your ToDo has been deleted!", {
+                        icon: "success",
+                    }).then(() => {
+                        location.reload();
+                    });
+                });
+            } else {
+                swal("Your ToDo is safe!");
+            }
+        });
     }
 
     function saveToDo() {
         var title = $("#todo-title").val();
         var date = $("#todo-date").val();
-        var parsedJson = JSON.stringify({ Title: title, DueDate: date });
 
-        $.ajax({
+        var parsedJson = JSON.stringify({ Title: title, DueDate: date, Id: toDoId });
+        return $.ajax({
             type: "POST",
-            url: "/ToDo/Create",
+            url: url,
             contentType: "application/json; charset=utf-8",
             data: parsedJson,
             datatype: "json",
@@ -105,12 +139,22 @@
     }
 
     function bindDatatable() {
-        datatable = $('#myTable')
+        var datatable = $('#myTable')
             .DataTable({
                 bServerSide: true,
                 processing: true,
+
                 ajax: "/ToDo/GetToDos",
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false
+                    }
+                ],
                 columns: [
+                    {
+                        data: "Id"
+                    },
                     {
                         data: "RecordNumber",
                     },
@@ -120,38 +164,54 @@
                     {
                         data: "DueDate",
                         render: function (data) {
-                            var start = data.indexOf('(') + 1;
-                            var end = data.indexOf(')');
-                            var parsedDate = new Date(Date(data.substring(start, end)));
-                            return parsedDate.toUTCString();
+                            return ParseDateTime(data);
                         }
                     },
                     {
                         data: "Action",
-                        render: function (data, type, row) {
-                            return '<button class="edit btn btn-primary"> Edit </button> <button class="delete btn btn-danger"> Delete </button> <button class="done btn btn-success"> <span class="glyphicon glyphicon-ok"></span> </button>';
-                        }
-                    },
-                    {
-                        data: "Id",
-                        render: function() {
-                            return '';
+                        render: function () {
+                            return '<button class="edit btn btn-primary"> Edit </button> ' +
+                                '<button class="delete btn btn-danger"> Delete </button> ' +
+                                '<button class="done btn btn-success"> <span class="glyphicon glyphicon-ok"></span> </button>';
                         }
                     }
                 ]
             });
+        return datatable;
     }
 
-    $('#myTable .edit').on('click',
-        function () {
-            console.log("Edit");
-        });
-    $('#myTable .delete').on('click',
-        function () {
-            console.log("Delete");
-        });
-    $('#myTable .done').on('click',
-        function () {
-            console.log("Done");
-        });
+    $('#myTable').on('click', 'tr .edit', function (e) {
+        var row = myDataTable.row($(this).closest('tr')).data();
+        editToDo(row.Title, ParseDateTime(row.DueDate), row.Id);
+    });
+
+    $('#myTable').on('click', 'tr .delete', function (e) {
+        var row = myDataTable.row($(this).closest('tr')).data();
+        deleteToDo(row.Id);
+    });
+
+    $('#myTable').on('click', 'tr .done', function (e) {
+        var row = $(this).closest('tr');
+        var children = $(row).children();
+
+        var items = $(children[3]).children();
+        for (let i = 0; i < items.length; i++) {
+            $(items[i]).css('display', 'none');
+        }
+
+        $(row).css('background', 'darkseagreen');
+    });
+
+    function clearModal() {
+        $("#todo-title").val(null);
+        $("#todo-date").val(null);
+        $('#myModal').modal('hide');
+    }
+
+    function ParseDateTime(datetime) {
+        var start = datetime.indexOf('(') + 1;
+        var end = datetime.indexOf(')');
+        var parsedDate = new Date(Date(datetime.substring(start, end)));
+        return parsedDate.toLocaleDateString();
+    }
 </script>

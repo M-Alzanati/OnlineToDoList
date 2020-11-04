@@ -15,5 +15,7 @@ namespace OnlineUserToDoList.Models
         public DateTime DueDate { set; get; }
 
         public string UserId { set; get; }
+
+        public ToDoStatus ToDoStatus { set; get; }
     }
 }

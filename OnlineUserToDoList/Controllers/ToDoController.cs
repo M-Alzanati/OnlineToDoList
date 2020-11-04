@@ -35,6 +35,44 @@ namespace OnlineUserToDoList.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        public ActionResult Edit(ToDoBindingModel model)
+        {
+            var ctx = ApplicationDbContext.Create();
+            var userId = User.Identity.GetUserId();
+
+            var newTodoModel = AutoMapping.Mapper.Map<ToDoBindingModel, ToDoModel>(model);
+            newTodoModel.UserId = userId;
+
+            var oldTodo = ctx.ToDoList.FirstOrDefault(t => t.Id == newTodoModel.Id && t.UserId == userId);
+            if (oldTodo != null)
+            {
+                oldTodo.DueDate = newTodoModel.DueDate;
+                oldTodo.Title = newTodoModel.Title;
+            }
+
+            ctx.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Delete(ToDoBindingModel model)
+        {
+            var ctx = ApplicationDbContext.Create();
+            var userId = User.Identity.GetUserId();
+
+            var oldTodo = ctx.ToDoList.FirstOrDefault(t => t.Id == model.Id && t.UserId == userId);
+            if (oldTodo != null)
+            {
+                ctx.ToDoList.Remove(oldTodo);
+            }
+
+            ctx.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
         [HttpGet]
         public ActionResult GetToDos()
         {

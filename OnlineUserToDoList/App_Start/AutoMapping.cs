@@ -13,6 +13,7 @@ namespace OnlineUserToDoList.App_Start
             _mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<ToDoBindingModel, ToDoModel>()
+                    .ForMember(destination => destination.Id, opt => opt.MapFrom(source => source.Id))
                     .ForMember(destination => destination.Title, opt => opt.MapFrom(source => source.Title))
                     .ForMember(destination => destination.DueDate, opt => opt.MapFrom(source => source.DueDate));
             });

@@ -23,6 +23,7 @@ namespace OnlineUserToDoList.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<ToDoModel> ToDoList { set; get; }
+        public DbSet<ToDoStatus> ToDoStatuses { set; get; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
