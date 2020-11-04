@@ -15,7 +15,7 @@ namespace OnlineUserToDoList
                 "~/lib/jquery-validate/jquery.validate.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/datatabel").Include(
-                "~/lib/datatable/js/datatable.jquery.js"));
+                "~/Scripts/jquery.dataTables.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/sweetalert").Include(
                 "~/lib/sweetalert/sweetalert.min.js"));
@@ -25,7 +25,7 @@ namespace OnlineUserToDoList
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/lib/datatable/css/datatable.css",
+                      "~/Content/jquery.dataTables.css",
                       "~/Content/site.css"));
         }
     }

@@ -14,17 +14,17 @@
     },
     {
       "provider": "cdnjs",
-      "library": "datatable@2.0.1",
-      "destination": "lib/datatable/"
-    },
-    {
-      "provider": "cdnjs",
       "library": "twitter-bootstrap@4.5.3",
       "destination": "lib/twitter-bootstrap/"
     },
     {
       "library": "jquery-validate@1.19.2",
       "destination": "lib/jquery-validate/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "moment.js@2.29.1",
+      "destination": "lib/moment.js/"
     }
   ]
 }

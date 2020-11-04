@@ -8,6 +8,7 @@ namespace OnlineUserToDoList.Controllers
 {
     public class ToDoController : Controller
     {
+        [Authorize]
         [HttpPost]
         public ActionResult Create(ToDoBindingModel model)
         {
@@ -33,6 +34,7 @@ namespace OnlineUserToDoList.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult GetToDos()
         {
@@ -41,10 +43,16 @@ namespace OnlineUserToDoList.Controllers
             if (user != null)
             {
                 var toDos = context.ToDoList.Where(r => r.UserId == user.Id).ToList();
-                return Json(toDos);
+                return Json(new
+                {
+                    draw = 1,
+                    recordsTotal = toDos.Count,
+                    recordsFiltered = toDos.Count,
+                    data = toDos
+                }, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(null);
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
     }
 }

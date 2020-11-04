@@ -1,6 +1,4 @@
-﻿@model IEnumerable<OnlineUserToDoList.Models.ToDoModel>
-
-@{
+﻿@{
     ViewBag.Title = "Home Page";
 }
 
@@ -30,7 +28,7 @@
                         </div>
                         <div class="form-group">
                             <label for="todo-date" class="col-form-label">Date</label>
-                            <input class="form-control" id="todo-date" type="datetime-local" />
+                            <input class="form-control" id="todo-date" type="date" />
                         </div>
                     </form>
                 </div>
@@ -41,44 +39,23 @@
             </div>
         </div>
     </div>
-    <table id="myTable" class="table table-hover table-striped">
+    <table id="myTable" class="display" style="width:100%">
         <thead>
-            <tr>
-                <th>RecordNumber</th>
-                <th>Title</th>
-                <th>Due Date</th>
-                <th>Action</th>
-            </tr>
+        <tr>
+            <th style="display: none;">Id</th>
+            <th>RecordNumber</th>
+            <th>Title</th>
+            <th>Due Date</th>
+            <th>Action</th>
+        </tr>
         </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RecordNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DueDate)
-                    </td>
-                    <td>
-                        <button class="btn btn-primary">Edit</button>
-                        <button class="btn btn-danger">Delete</button>
-                        <button class="btn btn-success">
-                            <span class="glyphicon glyphicon-ok"></span>
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
+        <tbody></tbody>
     </table>
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {  
-        bindDatatable();  
+    $(document).ready(function () {
+        bindDatatable();
     });
 
     function addToDo() {
@@ -96,63 +73,85 @@
         var date = $("#todo-date").val();
         var parsedJson = JSON.stringify({ Title: title, DueDate: date });
 
-        $.ajax({  
-            type: "POST",  
-            url: "/ToDo/Create",  
-            contentType: "application/json; charset=utf-8",  
-            data: parsedJson,  
-            datatype: "json",  
-            success: function () {  
+        $.ajax({
+            type: "POST",
+            url: "/ToDo/Create",
+            contentType: "application/json; charset=utf-8",
+            data: parsedJson,
+            datatype: "json",
+            success: function () {
                 swal({
                     title: "Done",
                     text: "To do has been added",
                     icon: "success",
                     button: "Ok!"
+                }).then(() => {
+                    location.reload();
                 });
                 clearModal();
-            },  
-            error: function () {  
+            },
+            error: function () {
                 swal({
                     title: "Error",
                     text: "Failed to save ToDo",
                     icon: "error",
                     button: "Ok!"
+                }).then(() => {
+                    location.reload();
                 });
                 clearModal();
-            }  
+            }
         });
     }
 
-    function bindDatatable() {  
-        datatable = $('#myTable')  
-            .DataTable({  
-                "sAjaxSource": "/ToDo/GetToDos",  
-                "bServerSide": true,  
-                "bProcessing": true,  
-                "bSearchable": true,  
-                "order": [[1, 'asc']],  
-                "language": {  
-                    "emptyTable": "No record found.",  
-                    "processing":  
-                        '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '  
-                },  
-                "columns": [  
-                    {  
-                        "data": "RecordNumber",  
-                        "autoWidth": true,  
-                        "searchable": true  
-                    },  
-                    {  
-                        "data": "Title",  
-                        "autoWidth": true,  
-                        "searchable": true  
-                    },  
-                    {  
-                        "data": "DueDate",  
-                        "autoWidth": true,  
-                        "searchable": true  
+    function bindDatatable() {
+        datatable = $('#myTable')
+            .DataTable({
+                bServerSide: true,
+                processing: true,
+                ajax: "/ToDo/GetToDos",
+                columns: [
+                    {
+                        data: "RecordNumber",
+                    },
+                    {
+                        data: "Title"
+                    },
+                    {
+                        data: "DueDate",
+                        render: function (data) {
+                            var start = data.indexOf('(') + 1;
+                            var end = data.indexOf(')');
+                            var parsedDate = new Date(Date(data.substring(start, end)));
+                            return parsedDate.toUTCString();
+                        }
+                    },
+                    {
+                        data: "Action",
+                        render: function (data, type, row) {
+                            return '<button class="edit btn btn-primary"> Edit </button> <button class="delete btn btn-danger"> Delete </button> <button class="done btn btn-success"> <span class="glyphicon glyphicon-ok"></span> </button>';
+                        }
+                    },
+                    {
+                        data: "Id",
+                        render: function() {
+                            return '';
+                        }
                     }
-                ]  
-            });  
-    }  
+                ]
+            });
+    }
+
+    $('#myTable .edit').on('click',
+        function () {
+            console.log("Edit");
+        });
+    $('#myTable .delete').on('click',
+        function () {
+            console.log("Delete");
+        });
+    $('#myTable .done').on('click',
+        function () {
+            console.log("Done");
+        });
 </script>
