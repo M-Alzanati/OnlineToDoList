@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using OnlineUserToDoList.App_Start;
@@ -78,15 +79,23 @@ namespace OnlineUserToDoList.Controllers
         {
             var context = ApplicationDbContext.Create();
             var user = context.Users.FirstOrDefault(r => r.UserName == User.Identity.Name);
+
             if (user != null)
             {
-                var toDos = context.ToDoList.Where(r => r.UserId == user.Id).ToList();
+                var toDoList = context.ToDoList.Where(r => r.UserId == user.Id).ToList();
+                var toDosBindingModels = new List<ToDoBindingModel>();
+
+                foreach (var toDo in toDoList)
+                {
+                    toDosBindingModels.Add(AutoMapping.Mapper.Map<ToDoModel, ToDoBindingModel>(toDo));
+                }
+
                 return Json(new
                 {
                     draw = 1,
-                    recordsTotal = toDos.Count,
-                    recordsFiltered = toDos.Count,
-                    data = toDos
+                    recordsTotal = toDosBindingModels.Count,
+                    recordsFiltered = toDosBindingModels.Count,
+                    data = toDosBindingModels
                 }, JsonRequestBehavior.AllowGet);
             }
 

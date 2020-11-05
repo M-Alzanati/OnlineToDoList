@@ -8,6 +8,10 @@ namespace OnlineUserToDoList.Models
 
         public string Title { set; get; }
 
-        public DateTime DueDate { set; get; }
+        public string DueDate { set; get; }
+
+        public int RecordNumber { set; get; }
+
+        public int Status { set; get; }
     }
 }

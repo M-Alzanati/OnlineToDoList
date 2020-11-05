@@ -41,6 +41,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Status</th>
                 <th>RecordNumber</th>
                 <th>Title</th>
                 <th>Due Date</th>
@@ -138,16 +139,29 @@
         });
     }
 
+    function clearModal() {
+        $("#todo-title").val(null);
+        $("#todo-date").val(null);
+        $('#myModal').modal('hide');
+    }
+
+    function ParseDateTime(date) {
+        return new Date(date).toLocaleDateString('fr-CA');
+    }
+
     function bindDatatable() {
         var datatable = $('#myTable')
             .DataTable({
                 bServerSide: true,
                 processing: true,
-
                 ajax: "/ToDo/GetToDos",
                 columnDefs: [
                     {
                         "targets": [0],
+                        "visible": false
+                    },
+                    {
+                        "targets": [1],
                         "visible": false
                     }
                 ],
@@ -156,16 +170,16 @@
                         data: "Id"
                     },
                     {
+                        data: "Status"
+                    },
+                    {
                         data: "RecordNumber",
                     },
                     {
                         data: "Title"
                     },
                     {
-                        data: "DueDate",
-                        render: function (data) {
-                            return ParseDateTime(data);
-                        }
+                        data: "DueDate"
                     },
                     {
                         data: "Action",
@@ -201,17 +215,4 @@
 
         $(row).css('background', 'darkseagreen');
     });
-
-    function clearModal() {
-        $("#todo-title").val(null);
-        $("#todo-date").val(null);
-        $('#myModal').modal('hide');
-    }
-
-    function ParseDateTime(datetime) {
-        var start = datetime.indexOf('(') + 1;
-        var end = datetime.indexOf(')');
-        var parsedDate = new Date(Date(datetime.substring(start, end)));
-        return parsedDate.toLocaleDateString();
-    }
 </script>
