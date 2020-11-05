@@ -223,4 +223,14 @@
             $(row).css('background', 'darkseagreen');
         });
     });
+
+    $('#myTable').on('draw.dt', function () {
+        var table = $('#myTable').DataTable();
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var row = table.row(rowIdx);
+            if (row.data().Status === 2) {
+                $(row).addClass('success');
+            }
+        });
+    });
 </script>
