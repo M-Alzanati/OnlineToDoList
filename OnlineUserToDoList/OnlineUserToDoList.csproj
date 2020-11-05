@@ -202,22 +202,6 @@
     <Compile Include="Migrations\202011041956088_link-status-with-todos.Designer.cs">
       <DependentUpon>202011041956088_link-status-with-todos.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202011041959473_update-todos.cs" />
-    <Compile Include="Migrations\202011041959473_update-todos.Designer.cs">
-      <DependentUpon>202011041959473_update-todos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202011042000538_remove-old-forigenkey.cs" />
-    <Compile Include="Migrations\202011042000538_remove-old-forigenkey.Designer.cs">
-      <DependentUpon>202011042000538_remove-old-forigenkey.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202011042002301_remove-status-column.cs" />
-    <Compile Include="Migrations\202011042002301_remove-status-column.Designer.cs">
-      <DependentUpon>202011042002301_remove-status-column.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202011042006187_remove-status-again.cs" />
-    <Compile Include="Migrations\202011042006187_remove-status-again.Designer.cs">
-      <DependentUpon>202011042006187_remove-status-again.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -580,18 +564,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011041956088_link-status-with-todos.resx">
       <DependentUpon>202011041956088_link-status-with-todos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202011041959473_update-todos.resx">
-      <DependentUpon>202011041959473_update-todos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202011042000538_remove-old-forigenkey.resx">
-      <DependentUpon>202011042000538_remove-old-forigenkey.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202011042002301_remove-status-column.resx">
-      <DependentUpon>202011042002301_remove-status-column.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202011042006187_remove-status-again.resx">
-      <DependentUpon>202011042006187_remove-status-again.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

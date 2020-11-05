@@ -16,6 +16,6 @@ namespace OnlineUserToDoList.Models
 
         public string UserId { set; get; }
 
-        public ToDoStatus ToDoStatus { set; get; }
+        public int Status { set; get; }
     }
 }

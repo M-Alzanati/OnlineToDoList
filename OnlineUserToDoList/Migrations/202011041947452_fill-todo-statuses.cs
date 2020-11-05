@@ -9,7 +9,6 @@ namespace OnlineUserToDoList.Migrations
         {
             Sql("INSERT INTO ToDoStatus (Name) VALUES ('Done')");
             Sql("INSERT INTO ToDoStatus (Name) VALUES ('Pending')");
-           
         }
 
         public override void Down()

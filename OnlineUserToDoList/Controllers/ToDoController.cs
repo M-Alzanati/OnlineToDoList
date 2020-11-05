@@ -74,6 +74,23 @@ namespace OnlineUserToDoList.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        public ActionResult Done(ToDoBindingModel model)
+        {
+            var ctx = ApplicationDbContext.Create();
+            var userId = User.Identity.GetUserId();
+
+            var oldTodo = ctx.ToDoList.FirstOrDefault(t => t.Id == model.Id && t.UserId == userId);
+            if (oldTodo != null)
+            {
+                oldTodo.Status = model.Status;
+            }
+
+            ctx.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
         [HttpGet]
         public ActionResult GetToDos()
         {

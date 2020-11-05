@@ -56,6 +56,7 @@
     var myDataTable = null;
     var url = '';
     var toDoId = '';
+    var todoStatus = 2;
 
     $(document).ready(function () {
         myDataTable = bindDatatable();
@@ -107,7 +108,7 @@
         var title = $("#todo-title").val();
         var date = $("#todo-date").val();
 
-        var parsedJson = JSON.stringify({ Title: title, DueDate: date, Id: toDoId });
+        var parsedJson = JSON.stringify({ Title: title, DueDate: date, Id: toDoId, Status: todoStatus });
         return $.ajax({
             type: "POST",
             url: url,
@@ -206,13 +207,20 @@
 
     $('#myTable').on('click', 'tr .done', function (e) {
         var row = $(this).closest('tr');
-        var children = $(row).children();
+        var rowData = myDataTable.row(row).data();
 
-        var items = $(children[3]).children();
-        for (let i = 0; i < items.length; i++) {
-            $(items[i]).css('display', 'none');
-        }
+        url = "/ToDo/Done";
+        toDoId = rowData.Id;
+        todoStatus = 1;
 
-        $(row).css('background', 'darkseagreen');
+        saveToDo().then(() => {
+            var children = $(row).children();
+            var items = $(children[3]).children();
+            for (let i = 0; i < items.length; i++) {
+                $(items[i]).css('display', 'none');
+            }
+
+            $(row).css('background', 'darkseagreen');
+        });
     });
 </script>
